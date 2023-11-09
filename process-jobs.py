@@ -3,22 +3,6 @@ import os
 from termcolor import colored
 
 
-# Colorize terminal output
-class bcolors:
-    HEADER = "\033[95m"
-    OKBLUE = "\033[94m"
-    OKCYAN = "\033[96m"
-    OKGREEN = "\033[92m"
-    WARNING = "\033[93m"
-    FAIL = "\033[91m"
-    ENDC = "\033[0m"
-    BOLD = "\033[1m"
-    UNDERLINE = "\033[4m"
-
-
-import sys
-
-
 def get_bright_network_jobs(
     bright_network_file="./bright-network-jobs.json",
     accepted_file="./accepted_jobs.json",
@@ -61,19 +45,32 @@ def get_bright_network_jobs(
         )
         print(colored(f"{job['title']} at {job['company']}", "green"))
         print(job["description"])
-        response = input("Do you want to accept this job? (Y/N/O): ").lower()
 
-        if response == "y":
-            accepted_jobs.append(job)
-            save_to_file(accepted_jobs, "accepted_jobs.json")
-        elif response == "n":
-            rejected_jobs.append(job)
-            save_to_file(rejected_jobs, "rejected_jobs.json")
-        elif response == "o":
-            other_interested.append(job)
-            save_to_file(other_interested, "other_interested.json")
-        else:
-            print("Invalid input. Please try again.")
+        response = None
+
+        while response not in ["y", "n", "o"]:
+            response = input("Do you want to accept this job? (Y/N/O): ").lower()
+
+            if response == "y":
+                accepted_jobs.append(job)
+                save_to_file(accepted_jobs, "accepted_jobs.json")
+                break
+            elif response == "n":
+                rejected_jobs.append(job)
+                save_to_file(rejected_jobs, "rejected_jobs.json")
+                break
+            elif response == "o":
+                other_interested.append(job)
+                save_to_file(other_interested, "other_interested.json")
+                break
+            else:
+                print(
+                    colored(
+                        "Invalid input. Please enter Y, N or O. Or press CTRL + C to quit. Already processed jobs will be saved and you can resume later",
+                        "red",
+                    )
+                )
+                continue
 
         print_stats(accepted_jobs, rejected_jobs, no_description)
 
@@ -100,5 +97,6 @@ def print_stats(accepted_jobs, rejected_jobs, no_description):
     print(f"No description: {len(no_description)}")
 
 
+# Change file name here if you want to use a different file
 if __name__ == "__main__":
-    get_bright_network_jobs("./bright-network-jobs-09-11.json")
+    get_bright_network_jobs("./bright-network-jobs.json")

@@ -131,5 +131,5 @@ if __name__ == "__main__":
     update_job_listings(
         fetch_bright_network_jobs,
         "bright-network-jobs.json",
-        "bright-network-jobs-09-11.json",
+        "bright-network-jobs.json",
     )
