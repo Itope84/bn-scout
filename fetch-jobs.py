@@ -16,7 +16,8 @@ def fetch_bright_network_jobs():
     The approach in this function is to use requests function to fetch the HTML content of the page, then use BeautifulSoup to parse the HTML content and extract the job listings.
     This only works because bright network does not use dynamic JavaScript to render pages. Meaning this approach will not work for all websites. For other websites, we will need to use selenium or go back to nodejs and use playwright like a sane person.
     """
-    url = "https://www.brightnetwork.co.uk/application-deadlines/jobs/graduate-schemes/technology/"
+    url = input("Please enter the Bright Network page with the roles you're interested in, e.g. https://www.brightnetwork.co.uk/application-deadlines/jobs/graduate-schemes/technology/: \n")
+    
     print(colored("Fetching job list ....", "yellow"))
 
     response = requests.get(url)
